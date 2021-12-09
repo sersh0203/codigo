@@ -1,0 +1,129 @@
+const express = require("express");
+const jwt = require("jsonwebtoken");
+
+const app = express();
+
+// Inicio de Sesion
+app.post("/api/login", (req , res) => {
+
+    if (req.query.email == 'sergio@email.com' && req.query.contra == '123') {
+        res.json({
+            mensaje: "Inicio de Sesion correcto!",
+        });
+    } else {
+        res.json({
+            mensaje: "Inicio de Sesion Incorrecto!!",
+        });
+    }
+
+});
+
+// Cierre de Sesion
+app.post("/api/logout", (req , res) => {
+
+    res.json({
+        mensaje: "Sesion Finalizada.",
+    });
+
+});
+
+// Perfil
+app.get("/api/perfil", (req , res) => {
+
+    const user = {
+        nombre : "Sergio Armando",
+        edad: 21,
+        email: "sergio@email.com"
+    }
+
+    res.json({
+       user
+    });
+
+});
+
+// Lista de productos
+app.get("/api/productos", (req , res) => {
+
+    var productos = ['tenis','bicicleta', 'balon'];
+
+    res.json({
+       productos
+    });
+
+});
+
+// Consulta de producto
+app.post("/api/consultaproducto", (req , res) => {
+
+    var productos = ['bicicleta', 'balon'];
+
+    var existe = productos.indexOf(req.query.producto)
+
+    if ( existe == 0 ) {
+        res.json({
+            mensaje: 'Si hay producto en existencia'
+        });
+    } else {
+        res.json({
+            mensaje: 'No hay producto en existencia'
+        });
+    }
+
+
+});
+
+
+
+// Agregar un producto al carrito
+app.post("/api/agregarproducto", (req , res) => {
+
+    var productos = ['tenis','bicicleta', 'balon'];
+
+    productos.push(req.query.producto);
+
+    res.json({
+       productos
+    });
+
+});
+
+// Elliminar un producto al carrito
+app.post("/api/eliminarproducto", (req , res) => {
+    
+    var productos = ['tenis','bicicleta', 'balon'];
+
+    var i = productos.indexOf( req.query.producto );
+ 
+    if ( i == 0) {
+        arr.splice( i, 1 );
+        res.json({
+            mensaje: 'Producto Eliminado',
+            productos
+         });
+    } else {
+        res.json({
+            mensaje: 'El producto no existe',
+            productos
+         });
+    }
+    
+
+});
+
+// Pagar un producto al carrito
+app.get("/api/pagar", (req , res) => {
+    
+    var productos = ['tenis','bicicleta', 'balon'];
+
+    res.json({
+        mensaje: 'Productos pagados',
+        productos
+     });
+
+});
+
+
+app.listen(3000, () => {
+    console.log("Servidor listo.");
+});
